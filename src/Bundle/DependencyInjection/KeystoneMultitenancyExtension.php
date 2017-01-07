@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class KeystoneMultitenancyExtension extends Extension
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);

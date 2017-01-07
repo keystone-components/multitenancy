@@ -2,7 +2,7 @@
 
 namespace Keystone\Multitenancy\EventListener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Keystone\Multitenancy\Context\TenantContextInterface;
 use Keystone\Multitenancy\Exception\TenantNotFoundException;
 use Keystone\Multitenancy\Model\TenantInterface;
@@ -14,17 +14,48 @@ use Symfony\Component\Routing\RequestContext;
 
 class TenantRequestListener implements EventSubscriberInterface
 {
+    /**
+     * @var RequestContext
+     */
     private $requestContext;
+
+    /**
+     * @var TenantContextInterface
+     */
     private $tenantContext;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var TenantRepositoryInterface
+     */
     private $tenantRepository;
+
+    /**
+     * @var string
+     */
     private $routeParameter;
+
+    /**
+     * @var string
+     */
     private $filterColumn;
 
+    /**
+     * @param RequestContext $requestContext
+     * @param TenantContextInterface $tenantContext
+     * @param EntityManagerInterface $entityManager
+     * @param TenantRepositoryInterface $tenantRepository
+     * @param string $routeParameter
+     * @param string $filterColumn
+     */
     public function __construct(
         RequestContext $requestContext,
         TenantContextInterface $tenantContext,
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         TenantRepositoryInterface $tenantRepository,
         $routeParameter,
         $filterColumn
@@ -37,6 +68,11 @@ class TenantRequestListener implements EventSubscriberInterface
         $this->filterColumn = $filterColumn;
     }
 
+    /**
+     * @param GetResponseEvent $event
+     *
+     * @throws TenantNotFoundException
+     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -61,6 +97,9 @@ class TenantRequestListener implements EventSubscriberInterface
         $this->enableQueryFilter($tenant);
     }
 
+    /**
+     * @param TenantInterface $tenant
+     */
     private function enableQueryFilter(TenantInterface $tenant)
     {
         $filters = $this->entityManager->getFilters();
@@ -74,6 +113,9 @@ class TenantRequestListener implements EventSubscriberInterface
         $filter->setColumn($this->filterColumn);
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [

@@ -9,18 +9,31 @@ use RuntimeException;
 
 class TenantScopedFilter extends SQLFilter
 {
+    /**
+     * @var column
+     */
     private $column;
 
+    /**
+     * @return string
+     */
     public function getColumn()
     {
         return $this->column;
     }
 
+    /**
+     * @param string $column
+     */
     public function setColumn($column)
     {
         $this->column = $column;
     }
 
+    /**
+     * @param ClassMetadata $targetEntity
+     * @param string $targetTableAlias
+     */
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
         if (!$targetEntity->getReflectionClass()->implementsInterface(TenantScoped::class)) {

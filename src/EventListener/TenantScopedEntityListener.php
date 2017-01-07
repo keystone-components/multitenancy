@@ -11,13 +11,22 @@ use RuntimeException;
 
 class TenantScopedEntityListener implements EventSubscriber
 {
+    /**
+     * @var TenantContextInterface
+     */
     private $tenantContext;
 
+    /**
+     * @param TenantContextInterface $tenantContext
+     */
     public function __construct(TenantContextInterface $tenantContext)
     {
         $this->tenantContext = $tenantContext;
     }
 
+    /**
+     * @return array
+     */
     public function getSubscribedEvents()
     {
         return [
@@ -25,6 +34,9 @@ class TenantScopedEntityListener implements EventSubscriber
         ];
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();

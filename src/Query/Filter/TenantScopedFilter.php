@@ -32,15 +32,15 @@ class TenantScopedFilter extends SQLFilter
             throw new RuntimeException('Tenant query filter column not set');
         }
 
-        if (!$this->hasParameter('tenantId') || $this->getParameter('tenantId') === null) {
-            throw new InvalidArgumentException('The "tenantId" filter parameter was not set');
+        if (!$this->hasParameter('id')) {
+            throw new InvalidArgumentException('The "id" filter parameter was not set');
         }
 
         return sprintf(
             '%s.%s = %s',
             $targetTableAlias,
             $this->getColumn(),
-            $this->getParameter('tenantId')
+            $this->getParameter('id')
         );
     }
 }

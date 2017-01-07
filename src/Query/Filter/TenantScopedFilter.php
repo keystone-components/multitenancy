@@ -23,7 +23,7 @@ class TenantScopedFilter extends SQLFilter
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (!$targetEntity->reflClass->implementsInterface(TenantScoped::class)) {
+        if (!$targetEntity->getReflectionClass()->implementsInterface(TenantScoped::class)) {
             return '';
         }
 

@@ -5,6 +5,7 @@ namespace Keystone\Multitenancy\EventListener;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\FilterCollection;
 use Keystone\Multitenancy\Context\TenantContext;
+use Keystone\Multitenancy\Exception\TenantNotFoundException;
 use Keystone\Multitenancy\Model\TenantInterface;
 use Keystone\Multitenancy\Query\Filter\TenantScopedFilter;
 use Keystone\Multitenancy\Repository\TenantRepositoryInterface;
@@ -77,6 +78,33 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onKernelRequest($event);
 
         $this->assertNull($this->tenantContext->getTenant());
+    }
+
+    public function testThrowsExceptionWhenTenantNotFound()
+    {
+        $this->expectException(TenantNotFoundException::class);
+
+        $request = new Request();
+        $request->attributes->set('tenant', 'test');
+
+        $event = Mockery::mock(GetResponseEvent::class, [
+            'isMasterRequest' => true,
+            'getRequest' => $request,
+        ]);
+
+        $tenant = Mockery::mock(TenantInterface::class, [
+            'getId' => 1,
+            'getRouteParameter' => 'test',
+        ]);
+
+        $this->tenantRepository->shouldReceive('getByRouteParameter')
+            ->once()
+            ->with('test')
+            ->andReturn(null);
+
+        $this->listener->onKernelRequest($event);
+
+        $this->requestContext->getParameter('tenant');
     }
 
     public function testSetsTenantRequestContext()

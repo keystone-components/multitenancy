@@ -1,0 +1,54 @@
+<?php
+
+namespace Keystone\Multitenancy\Controller\ArgumentResolver;
+
+use Keystone\Multitenancy\Context\TenantContext;
+use Keystone\Multitenancy\Model\TenantInterface;
+use Mockery;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+
+class TenantValueResolverTest extends \PHPUnit_Framework_TestCase
+{
+    private $context;
+    private $resolver;
+
+    public function setUp()
+    {
+        $this->context = new TenantContext();
+        $this->resolver = new TenantValueResolver($this->context);
+    }
+
+    public function testSupportsTenantArgumentWhenContextSet()
+    {
+        $this->context->setTenant(Mockery::mock(TenantInterface::class));
+
+        $argument = new ArgumentMetadata('test', TenantInterface::class, false, false, null);
+
+        $this->assertTrue($this->resolver->supports(new Request(), $argument));
+    }
+
+    public function testDoesNotSupportTenantArgumentWhenContextNotSet()
+    {
+        $argument = new ArgumentMetadata('test', TenantInterface::class, false, false, null);
+
+        $this->assertFalse($this->resolver->supports(new Request(), $argument));
+    }
+
+    public function testDoesNotSupportNonTenantArgument()
+    {
+        $argument = new ArgumentMetadata('test', 'string', false, false, null);
+
+        $this->assertFalse($this->resolver->supports(new Request(), $argument));
+    }
+
+    public function testResolveReturnsTenantFromContext()
+    {
+        $tenant = Mockery::mock(TenantInterface::class);
+        $this->context->setTenant($tenant);
+
+        $argument = new ArgumentMetadata('test', TenantInterface::class, false, false, null);
+
+        $this->assertSame($tenant, $this->resolver->resolve(new Request(), $argument));
+    }
+}

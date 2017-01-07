@@ -2,7 +2,7 @@
 
 namespace Keystone\Multitenancy\Model;
 
-interface TenantScopedInterface
+interface TenantScoped
 {
     /**
      * @return TenantInterface

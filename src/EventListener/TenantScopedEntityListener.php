@@ -6,7 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Keystone\Multitenancy\Context\TenantContextInterface;
-use Keystone\Multitenancy\Model\TenantScopedInterface;
+use Keystone\Multitenancy\Model\TenantScoped;
 use RuntimeException;
 
 class TenantScopedEntityListener implements EventSubscriber
@@ -28,7 +28,7 @@ class TenantScopedEntityListener implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof TenantScopedInterface || $this->tenantContext->getTenant() === null) {
+        if (!$entity instanceof TenantScoped || $this->tenantContext->getTenant() === null) {
             return;
         }
 

@@ -18,6 +18,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
     private $requestContext;
     private $tenantContext;
     private $entityManager;
+    private $tenantQueryFilter;
     private $tenantRepository;
     private $listener;
 
@@ -26,18 +27,11 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
         $this->requestContext = new RequestContext();
         $this->tenantContext = new TenantContext();
 
-        $this->entityManager = Mockery::mock(EntityManager::class);
+        $this->entityManager = Mockery::mock(EntityManager::class, [
+            'getFilters' => Mockery::mock(FilterCollection::class)->shouldIgnoreMissing(),
+        ]);
 
-        $filterCollection = Mockery::mock(FilterCollection::class)
-            ->shouldIgnoreMissing();
-
-        $filterCollection->shouldReceive('enable')
-            ->with('tenant')
-            ->andReturn(new TenantScopedFilter($this->entityManager));
-
-        $this->entityManager->shouldReceive('getFilters')
-            ->andReturn($filterCollection);
-
+        $this->tenantQueryFilter = new TenantScopedFilter($this->entityManager);
         $this->tenantRepository = Mockery::mock(TenantRepositoryInterface::class);
 
         $this->listener = new TenantRequestListener(
@@ -133,5 +127,38 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener->onKernelRequest($event);
 
         $this->assertSame($tenant, $this->tenantContext->getTenant());
+    }
+
+    public function testEnablesQueryFilter()
+    {
+        $request = new Request();
+        $request->attributes->set('tenant', 'test');
+
+        $event = Mockery::mock(GetResponseEvent::class, [
+            'isMasterRequest' => true,
+            'getRequest' => $request,
+        ]);
+
+        $tenant = Mockery::mock(TenantInterface::class, [
+            'getId' => 1,
+            'getRouteParameter' => 'test',
+        ]);
+
+        $this->tenantRepository->shouldReceive('getByRouteParameter')
+            ->once()
+            ->with('test')
+            ->andReturn($tenant);
+
+        $this->entityManager->getFilters()->shouldReceive('has')
+            ->with('tenant')
+            ->andReturn(true)
+            ->once();
+
+        $this->entityManager->getFilters()->shouldReceive('enable')
+            ->with('tenant')
+            ->andReturn($this->tenantQueryFilter)
+            ->once();
+
+        $this->listener->onKernelRequest($event);
     }
 }

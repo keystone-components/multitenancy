@@ -4,8 +4,7 @@ namespace Keystone\Multitenancy\Query\Filter;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
-use InvalidArgumentException;
-use Keystone\Multitenancy\Model\TenantScopedInterface;
+use Keystone\Multitenancy\Model\TenantScoped;
 use RuntimeException;
 
 class TenantScopedFilter extends SQLFilter
@@ -24,7 +23,7 @@ class TenantScopedFilter extends SQLFilter
 
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias)
     {
-        if (!$targetEntity->reflClass->implementsInterface(TenantScopedInterface::class)) {
+        if (!$targetEntity->reflClass->implementsInterface(TenantScoped::class)) {
             return '';
         }
 
@@ -33,7 +32,7 @@ class TenantScopedFilter extends SQLFilter
         }
 
         if (!$this->hasParameter('id')) {
-            throw new InvalidArgumentException('The "id" filter parameter was not set');
+            throw new RuntimeException('The "id" filter parameter was not set');
         }
 
         return sprintf(

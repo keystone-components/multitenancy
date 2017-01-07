@@ -48,7 +48,8 @@ class TenantValueResolverTest extends \PHPUnit_Framework_TestCase
         $this->context->setTenant($tenant);
 
         $argument = new ArgumentMetadata('test', TenantInterface::class, false, false, null);
+        $generator = $this->resolver->resolve(new Request(), $argument);
 
-        $this->assertSame($tenant, $this->resolver->resolve(new Request(), $argument));
+        $this->assertSame($tenant, $generator->current());
     }
 }

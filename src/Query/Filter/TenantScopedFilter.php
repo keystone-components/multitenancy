@@ -10,7 +10,7 @@ use RuntimeException;
 class TenantScopedFilter extends SQLFilter
 {
     /**
-     * @var column
+     * @var string
      */
     private $column;
 

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Filter\SQLFilter;
 use InvalidArgumentException;
 use Keystone\Multitenancy\Model\TenantScopedInterface;
+use RuntimeException;
 
 class TenantScopedFilter extends SQLFilter
 {
@@ -25,6 +26,10 @@ class TenantScopedFilter extends SQLFilter
     {
         if (!$targetEntity->reflClass->implementsInterface(TenantScopedInterface::class)) {
             return '';
+        }
+
+        if ($this->getColumn() === null) {
+            throw new RuntimeException('Tenant query filter column not set');
         }
 
         if (!$this->hasParameter('tenantId') || $this->getParameter('tenantId') === null) {

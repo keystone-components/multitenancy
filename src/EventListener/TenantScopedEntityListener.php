@@ -5,9 +5,9 @@ namespace Keystone\Multitenancy\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use InvalidArgumentException;
 use Keystone\Multitenancy\Context\TenantContextInterface;
 use Keystone\Multitenancy\Model\TenantScopedInterface;
+use RuntimeException;
 
 class TenantScopedEntityListener implements EventSubscriber
 {
@@ -28,14 +28,16 @@ class TenantScopedEntityListener implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof TenantScopedInterface || $entity->getTenant() !== null) {
+        if (!$entity instanceof TenantScopedInterface || $this->tenantContext->getTenant() === null) {
             return;
         }
 
-        if ($this->tenantContext->getTenant() === null) {
-            throw new InvalidArgumentException('Tenant context not set');
+        if ($entity->getTenant() !== null && $entity->getTenant() !== $this->tenantContext->getTenant()) {
+            // The tenant association is set but is different to the current tenant context
+            throw new RuntimeException('Cannot persist entity outside of the current tenant scope');
         }
 
+        // Set the current tenant in the association
         $entity->setTenant($this->tenantContext->getTenant());
     }
 }

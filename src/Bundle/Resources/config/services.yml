@@ -1,0 +1,29 @@
+services:
+  keystone_multitenancy.context.tenant:
+    class: Keystone\Multitenancy\Context\TenantContext
+
+  keystone_multitenancy.controller.argument_resolver.tenant_value:
+    class: Keystone\Multitenancy\Controller\ArgumentResolver\TenantValueResolver
+    arguments:
+      - '@keystone_multitenancy.context.tenant'
+    tags:
+      - { name: controller.argument_value_resolver, priority: 50 }
+
+  keystone_multitenancy.event_listener.tenant_request:
+    class: Keystone\Multitenancy\EventListener\TenantRequestListener
+    arguments:
+      - '@router.request_context'
+      - '@keystone_multitenancy.context.tenant'
+      - '@doctrine.orm.entity_manager'
+      - null
+      - null
+      - null
+    tags:
+        - { name: kernel.event_subscriber }
+
+  keystone_multitenancy.event_listener.tenant_scoped_entity:
+    class: Keystone\Multitenancy\EventListener\TenantScopedEntityListener
+    arguments:
+      - '@keystone_multitenancy.context.tenant'
+    tags:
+      - { name: doctrine.event_subscriber }

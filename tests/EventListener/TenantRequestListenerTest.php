@@ -17,15 +17,14 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
 {
     private $requestContext;
     private $tenantContext;
-    private $tenantRepository;
     private $entityManager;
+    private $tenantRepository;
     private $listener;
 
     public function setUp()
     {
         $this->requestContext = new RequestContext();
         $this->tenantContext = new TenantContext();
-        $this->tenantRepository = Mockery::mock(TenantRepositoryInterface::class);
 
         $this->entityManager = Mockery::mock(EntityManager::class);
 
@@ -39,11 +38,13 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
         $this->entityManager->shouldReceive('getFilters')
             ->andReturn($filterCollection);
 
+        $this->tenantRepository = Mockery::mock(TenantRepositoryInterface::class);
+
         $this->listener = new TenantRequestListener(
             $this->requestContext,
             $this->tenantContext,
-            $this->tenantRepository,
             $this->entityManager,
+            $this->tenantRepository,
             'tenant',
             'tenant_id'
         );

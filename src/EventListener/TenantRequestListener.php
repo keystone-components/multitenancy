@@ -16,23 +16,23 @@ class TenantRequestListener implements EventSubscriberInterface
 {
     private $requestContext;
     private $tenantContext;
-    private $tenantRepository;
     private $entityManager;
+    private $tenantRepository;
     private $routeParameter;
     private $filterColumn;
 
     public function __construct(
         RequestContext $requestContext,
         TenantContextInterface $tenantContext,
-        TenantRepositoryInterface $tenantRepository,
         EntityManager $entityManager,
+        TenantRepositoryInterface $tenantRepository,
         $routeParameter,
         $filterColumn
     ) {
         $this->requestContext = $requestContext;
         $this->tenantContext = $tenantContext;
-        $this->tenantRepository = $tenantRepository;
         $this->entityManager = $entityManager;
+        $this->tenantRepository = $tenantRepository;
         $this->routeParameter = $routeParameter;
         $this->filterColumn = $filterColumn;
     }
@@ -57,18 +57,19 @@ class TenantRequestListener implements EventSubscriberInterface
 
         // Set the tenant context for the request
         $this->tenantContext->setTenant($tenant);
-        $this->setRequestContextParameters($tenant);
+        $this->requestContext->setParameter($this->routeParameter, $identifier);
         $this->enableQueryFilter($tenant);
-    }
-
-    private function setRequestContextParameters(TenantInterface $tenant)
-    {
-        $this->requestContext->setParameter($this->routeParameter, $tenant->getRouteParameter());
     }
 
     private function enableQueryFilter(TenantInterface $tenant)
     {
-        $filter = $this->entityManager->getFilters()->enable('tenant');
+        $filters = $this->entityManager->getFilters();
+        if (!$filters->has('tenant')) {
+            // Do not try to enable if it is not configured
+            return;
+        }
+
+        $filter = $filters->enable('tenant');
         $filter->setParameter('tenantId', $tenant->getId());
         $filter->setColumn($this->filterColumn);
     }
@@ -76,8 +77,8 @@ class TenantRequestListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            // Needs to be called before the RouterListener(32)
-            KernelEvents::REQUEST => ['onKernelRequest', 33],
+            // Needs to be called after the RouterListener(32)
+            KernelEvents::REQUEST => ['onKernelRequest', 31],
         ];
     }
 }

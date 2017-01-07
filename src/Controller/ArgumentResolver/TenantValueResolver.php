@@ -42,6 +42,6 @@ class TenantValueResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        return $this->context->getTenant();
+        yield $this->context->getTenant();
     }
 }

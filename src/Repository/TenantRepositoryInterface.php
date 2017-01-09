@@ -11,5 +11,5 @@ interface TenantRepositoryInterface
      *
      * @return TenantInterface
      */
-    public function getByRouteParameter($value);
+    public function getByTenantRouteParameter($value);
 }

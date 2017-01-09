@@ -55,7 +55,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRequest' => $request,
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->never();
 
         $this->listener->onKernelRequest($event);
@@ -72,7 +72,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRequest' => $request,
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->never();
 
         $this->listener->onKernelRequest($event);
@@ -97,7 +97,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRouteParameter' => 'test',
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->once()
             ->with('test')
             ->andReturn(null);
@@ -122,7 +122,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRouteParameter' => 'test',
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->once()
             ->with('test')
             ->andReturn($tenant);
@@ -147,7 +147,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRouteParameter' => 'test',
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->once()
             ->with('test')
             ->andReturn($tenant);
@@ -172,7 +172,7 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             'getRouteParameter' => 'test',
         ]);
 
-        $this->tenantRepository->shouldReceive('getByRouteParameter')
+        $this->tenantRepository->shouldReceive('getByTenantRouteParameter')
             ->once()
             ->with('test')
             ->andReturn($tenant);

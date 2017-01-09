@@ -86,7 +86,7 @@ class TenantRequestListener implements EventSubscriberInterface
         }
 
         $identifier = $request->attributes->get($this->routeParameter);
-        $tenant = $this->tenantRepository->getByRouteParameter($identifier);
+        $tenant = $this->tenantRepository->getByTenantRouteParameter($identifier);
         if (!$tenant) {
             throw new TenantNotFoundException($identifier);
         }

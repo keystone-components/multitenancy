@@ -12,6 +12,7 @@ use Keystone\Multitenancy\Repository\TenantRepositoryInterface;
 use Mockery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RequestContext;
 
 class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
@@ -188,5 +189,13 @@ class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
             ->once();
 
         $this->listener->onKernelRequest($event);
+    }
+
+    public function testSubscribesToRequestEvent()
+    {
+        $events = $this->listener->getSubscribedEvents();
+
+        $this->assertArrayHasKey(KernelEvents::REQUEST, $events);
+        $this->assertSame(['onKernelRequest', 31], $events[KernelEvents::REQUEST]);
     }
 }

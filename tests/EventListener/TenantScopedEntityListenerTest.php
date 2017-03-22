@@ -3,6 +3,7 @@
 namespace Keystone\Multitenancy\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 use Keystone\Multitenancy\Context\TenantContext;
 use Keystone\Multitenancy\Model\TenantInterface;
 use Keystone\Multitenancy\Model\TenantScoped;
@@ -89,5 +90,10 @@ class TenantScopedEntityListenerTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->listener->prePersist($args);
+    }
+
+    public function testSubscribesToPrePersistEvent()
+    {
+        $this->assertContains(Events::prePersist, $this->listener->getSubscribedEvents());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\EventListener;
 
 use Doctrine\ORM\EntityManager;
@@ -10,12 +12,13 @@ use Keystone\Multitenancy\Model\TenantInterface;
 use Keystone\Multitenancy\Query\Filter\TenantScopedFilter;
 use Keystone\Multitenancy\Repository\TenantRepositoryInterface;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RequestContext;
 
-class TenantRequestListenerTest extends \PHPUnit_Framework_TestCase
+class TenantRequestListenerTest extends TestCase
 {
     private $requestContext;
     private $tenantContext;

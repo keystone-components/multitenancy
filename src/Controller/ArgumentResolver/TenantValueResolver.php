@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\Controller\ArgumentResolver;
 
 use Keystone\Multitenancy\Context\TenantContextInterface;

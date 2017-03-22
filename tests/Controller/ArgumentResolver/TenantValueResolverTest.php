@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\Controller\ArgumentResolver;
 
 use Keystone\Multitenancy\Context\TenantContext;
 use Keystone\Multitenancy\Model\TenantInterface;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class TenantValueResolverTest extends \PHPUnit_Framework_TestCase
+class TenantValueResolverTest extends TestCase
 {
     private $context;
     private $resolver;

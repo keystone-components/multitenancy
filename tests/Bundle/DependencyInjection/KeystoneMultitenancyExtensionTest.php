@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\Bundle\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KeystoneMultitenancyExtensionTest extends \PHPUnit_Framework_TestCase
+class KeystoneMultitenancyExtensionTest extends TestCase
 {
     public function testRequiresTenantRepositoryId()
     {

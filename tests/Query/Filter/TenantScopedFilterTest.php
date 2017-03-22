@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\Query\Filter;
 
 use Doctrine\DBAL\Connection;
@@ -7,10 +9,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\FilterCollection;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use RuntimeException;
 
-class TenantScopedFilterTest extends \PHPUnit_Framework_TestCase
+class TenantScopedFilterTest extends TestCase
 {
     private $connection;
     private $entityManager;

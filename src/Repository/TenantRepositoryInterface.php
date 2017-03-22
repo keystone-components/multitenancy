@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\Repository;
 
 use Keystone\Multitenancy\Model\TenantInterface;

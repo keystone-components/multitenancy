@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Keystone\Multitenancy\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -8,9 +10,10 @@ use Keystone\Multitenancy\Context\TenantContext;
 use Keystone\Multitenancy\Model\TenantInterface;
 use Keystone\Multitenancy\Model\TenantScoped;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-class TenantScopedEntityListenerTest extends \PHPUnit_Framework_TestCase
+class TenantScopedEntityListenerTest extends TestCase
 {
     private $tenantContext;
     private $listener;

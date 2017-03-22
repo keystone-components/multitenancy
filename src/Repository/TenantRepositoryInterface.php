@@ -9,7 +9,7 @@ interface TenantRepositoryInterface
     /**
      * @param string $value
      *
-     * @return TenantInterface
+     * @return TenantInterface|null
      */
-    public function getByTenantRouteParameter($value);
+    public function getByTenantRouteParameter(string $value): ?TenantInterface;
 }

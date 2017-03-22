@@ -7,9 +7,9 @@ use Keystone\Multitenancy\Model\TenantInterface;
 interface TenantContextInterface
 {
     /**
-     * @param getTenant
+     * @return TenantInterface|null
      */
-    public function getTenant();
+    public function getTenant(): ?TenantInterface;
 
     /**
      * @param TenantInterface $tenant

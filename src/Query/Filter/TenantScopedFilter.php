@@ -10,14 +10,14 @@ use RuntimeException;
 class TenantScopedFilter extends SQLFilter
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $column;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getColumn()
+    public function getColumn(): ?string
     {
         return $this->column;
     }
@@ -25,7 +25,7 @@ class TenantScopedFilter extends SQLFilter
     /**
      * @param string $column
      */
-    public function setColumn($column)
+    public function setColumn(string $column)
     {
         $this->column = $column;
     }

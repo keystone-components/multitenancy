@@ -14,7 +14,7 @@ class TenantContext implements TenantContextInterface
     /**
      * {@inheritdoc}
      */
-    public function getTenant()
+    public function getTenant(): ?TenantInterface
     {
         return $this->tenant;
     }

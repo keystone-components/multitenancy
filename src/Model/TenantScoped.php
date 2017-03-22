@@ -5,9 +5,9 @@ namespace Keystone\Multitenancy\Model;
 interface TenantScoped
 {
     /**
-     * @return TenantInterface
+     * @return TenantInterface|null
      */
-    public function getTenant();
+    public function getTenant(): ?TenantInterface;
 
     /**
      * @param TenantInterface

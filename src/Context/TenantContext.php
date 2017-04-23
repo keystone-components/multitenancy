@@ -9,7 +9,7 @@ use Keystone\Multitenancy\Model\TenantInterface;
 class TenantContext implements TenantContextInterface
 {
     /**
-     * @var TenantInterface
+     * @var TenantInterface|null
      */
     private $tenant;
 

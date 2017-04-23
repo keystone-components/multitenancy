@@ -97,7 +97,7 @@ class TenantRequestListenerTest extends TestCase
         ]);
 
         $tenant = Mockery::mock(TenantInterface::class, [
-            'getId' => 1,
+            'getTenantId' => 1,
             'getRouteParameter' => 'test',
         ]);
 
@@ -122,7 +122,7 @@ class TenantRequestListenerTest extends TestCase
         ]);
 
         $tenant = Mockery::mock(TenantInterface::class, [
-            'getId' => 1,
+            'getTenantId' => 1,
             'getRouteParameter' => 'test',
         ]);
 
@@ -147,7 +147,7 @@ class TenantRequestListenerTest extends TestCase
         ]);
 
         $tenant = Mockery::mock(TenantInterface::class, [
-            'getId' => 1,
+            'getTenantId' => 1,
             'getRouteParameter' => 'test',
         ]);
 
@@ -172,7 +172,7 @@ class TenantRequestListenerTest extends TestCase
         ]);
 
         $tenant = Mockery::mock(TenantInterface::class, [
-            'getId' => 1,
+            'getTenantId' => 1,
             'getRouteParameter' => 'test',
         ]);
 

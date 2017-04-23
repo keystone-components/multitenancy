@@ -9,5 +9,5 @@ interface TenantInterface
     /**
      * @return mixed
      */
-    public function getId();
+    public function getTenantId();
 }

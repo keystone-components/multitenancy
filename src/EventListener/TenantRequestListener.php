@@ -113,7 +113,7 @@ class TenantRequestListener implements EventSubscriberInterface
 
         /** @var TenantScopedFilter $filter */
         $filter = $filters->enable('tenant');
-        $filter->setParameter('id', $tenant->getId());
+        $filter->setParameter('id', $tenant->getTenantId());
         $filter->setColumn($this->filterColumn);
     }
 

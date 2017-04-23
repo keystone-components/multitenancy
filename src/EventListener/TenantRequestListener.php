@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Keystone\Multitenancy\Context\TenantContextInterface;
 use Keystone\Multitenancy\Exception\TenantNotFoundException;
 use Keystone\Multitenancy\Model\TenantInterface;
+use Keystone\Multitenancy\Query\Filter\TenantScopedFilter;
 use Keystone\Multitenancy\Repository\TenantRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -110,6 +111,7 @@ class TenantRequestListener implements EventSubscriberInterface
             return;
         }
 
+        /** @var TenantScopedFilter $filter */
         $filter = $filters->enable('tenant');
         $filter->setParameter('id', $tenant->getId());
         $filter->setColumn($this->filterColumn);

@@ -27,7 +27,7 @@ class KeystoneMultitenancyExtension extends Extension
         $requestListener->replaceArgument(4, $config['tenant_route_parameter']);
         $requestListener->replaceArgument(5, $config['tenant_filter_column']);
 
-        $argumentResolver = $container->getDefinition('keystone_multitenancy.event_listener.tenant_request');
+        $argumentResolver = $container->getDefinition('keystone_multitenancy.controller.argument_resolver.tenant_value');
         $argumentResolver->replaceArgument(2, $config['tenant_entity']);
     }
 }

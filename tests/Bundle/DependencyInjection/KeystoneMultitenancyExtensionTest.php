@@ -22,6 +22,7 @@ class KeystoneMultitenancyExtensionTest extends TestCase
     {
         $container = $this->createContainer();
         $this->loadConfig($container, [
+            'tenant_entity' => TenantInterface::class,
             'tenant_repository_id' => 'tenant_repository',
             'tenant_route_parameter' => 'tenantId',
             'tenant_filter_column' => 'tenant_id',
@@ -38,6 +39,7 @@ class KeystoneMultitenancyExtensionTest extends TestCase
     {
         $container = $this->createContainer();
         $this->loadConfig($container, [
+            'tenant_entity' => TenantInterface::class,
             'tenant_repository_id' => 'tenant_repository',
         ]);
 
@@ -49,6 +51,7 @@ class KeystoneMultitenancyExtensionTest extends TestCase
     {
         $container = $this->createContainer();
         $this->loadConfig($container, [
+            'tenant_entity' => TenantInterface::class,
             'tenant_repository_id' => 'tenant_repository',
         ]);
 

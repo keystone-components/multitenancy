@@ -6,6 +6,7 @@ services:
     class: Keystone\Multitenancy\Controller\ArgumentResolver\TenantValueResolver
     arguments:
       - '@keystone_multitenancy.context.tenant'
+      - null
     tags:
       - { name: controller.argument_value_resolver, priority: 50 }
 

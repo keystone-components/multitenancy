@@ -12,7 +12,7 @@ interface TenantScoped
     public function getTenant(): ?TenantInterface;
 
     /**
-     * @param TenantInterface
+     * @param TenantInterface $tenant
      */
-    public function setTenant(TenantInterface $tenance);
+    public function setTenant(TenantInterface $tenant);
 }

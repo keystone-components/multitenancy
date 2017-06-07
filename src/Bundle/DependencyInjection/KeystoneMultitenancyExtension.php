@@ -22,9 +22,12 @@ class KeystoneMultitenancyExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $tenantRequestListener = $container->getDefinition('keystone_multitenancy.event_listener.tenant_request');
-        $tenantRequestListener->replaceArgument(3, new Reference($config['tenant_repository_id']));
-        $tenantRequestListener->replaceArgument(4, $config['tenant_route_parameter']);
-        $tenantRequestListener->replaceArgument(5, $config['tenant_filter_column']);
+        $requestListener = $container->getDefinition('keystone_multitenancy.event_listener.tenant_request');
+        $requestListener->replaceArgument(3, new Reference($config['tenant_repository_id']));
+        $requestListener->replaceArgument(4, $config['tenant_route_parameter']);
+        $requestListener->replaceArgument(5, $config['tenant_filter_column']);
+
+        $argumentResolver = $container->getDefinition('keystone_multitenancy.event_listener.tenant_request');
+        $argumentResolver->replaceArgument(2, $config['tenant_entity']);
     }
 }

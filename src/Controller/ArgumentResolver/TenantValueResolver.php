@@ -18,11 +18,17 @@ class TenantValueResolver implements ArgumentValueResolverInterface
     private $context;
 
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @param TenantContextInterface $context
      */
-    public function __construct(TenantContextInterface $context)
+    public function __construct(TenantContextInterface $context, string $type = TenantInterface::class)
     {
         $this->context = $context;
+        $this->type = $type;
     }
 
     /**
@@ -33,7 +39,7 @@ class TenantValueResolver implements ArgumentValueResolverInterface
      */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        return $argument->getType() === TenantInterface::class && $this->context->getTenant() !== null;
+        return $argument->getType() === $this->type && $this->context->getTenant() !== null;
     }
 
     /**

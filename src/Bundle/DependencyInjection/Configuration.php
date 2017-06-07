@@ -19,6 +19,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('tenant_entity')
+                    ->isRequired()
+                    ->info('The entity FQCN')
+                ->end()
                 ->scalarNode('tenant_repository_id')
                     ->isRequired()
                     ->info('The service ID of the tenant repository implementation')
